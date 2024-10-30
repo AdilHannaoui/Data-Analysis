@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# This repository contains a Bash script designed to streamline the RNA-seq data analysis workflow.
+# This pipeline contains a Bash script designed to streamline the RNA-seq data analysis workflow.
 # The script automates several key steps in the RNA-seq analysis pipeline, including quality control,
-#trimming of raw sequencing reads, alignment to a reference genome, and counting gene expression levels.
+# trimming of raw sequencing reads, alignment to a reference genome, and counting gene expression levels.
 
 
 SECONDS=0
