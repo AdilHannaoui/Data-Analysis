@@ -76,7 +76,7 @@ for REP in $(seq 1 $MAX_REPLICATES); do
 
             # Run MACS2 for peak calling
             macs2 callpeak -t "$IP_FILE" -c "$IN_FILE" --format BAM \
-                --name "$OUTPUT_DIR/macs2/${BASE_NAME}_rep${REP}" --gsize 1.2e7 --pvalue 0.05 --nomodel > \
+                --name "$OUTPUT_DIR/macs2/${BASE_NAME}_rep${REP}" --gsize 1.2e7 --pvalue 0.01 --nomodel > \
                 "$OUTPUT_DIR/logs/narrowpeaks_${BASE_NAME}.log" 2>&1
         else
             echo "IN file for $IP_FILE for replicate $REP not found"
