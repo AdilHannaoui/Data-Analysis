@@ -22,36 +22,36 @@ $ fastqc reads.fastq
 $ bowtie2 -p 2
           -q
           --local 
-		      -x ~/direcory/to/genome/index 
-		      -U ~/reads.fastq 
-		      -S ~/reads_mapped.sam
+          -x ~/direcory/to/genome/index 
+          -U ~/reads.fastq 
+          -S ~/reads_mapped.sam
 ```
 
 ```bash
 $ samtools view -h \
-	              -S \
-	              -b \
-	              -o /reads_mapped.bam /reads_mapped.sam
+                -S \
+                -b \
+                -o /reads_mapped.bam /reads_mapped.sam
 ```
 
 ```bash
 $ sambamba sort -t 2 \ 
-	              -o /reads_mapped.bam /reads_mapped_sorted.bam 
+                -o /reads_mapped.bam /reads_mapped_sorted.bam 
 ```
 
 ```bash
 $ sambamba view -h \
-	              -t 2 \
-	              -f bam \ 
+                -t 2 \
+                -f bam \ 
                 -F "[XS] == null and not unmapped  and not duplicate" \ 
-	              reads_mapped_sorted.bam  > reads_mapped_sorted_aligned.bam 
+                reads_mapped_sorted.bam  > reads_mapped_sorted_aligned.bam 
 ```
 
 ```bash
 $ macs2 callpeak -t bowtie2/H1hesc_Nanog_Rep1_aln.bam \
                  -c bowtie2/H1hesc_Input_Rep1_aln.bam \
- 	               -f BAM \
+                 -f BAM \
                  -g 12000000 \
                  -p 0.01
-	               -n sample_name 
+                 -n sample_name 
 ```
