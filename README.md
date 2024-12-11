@@ -1,3 +1,9 @@
+---
+title: "ChIP-seq workflow"
+author: "Adil Hannaoui Anaaoui"
+date: "December 11th, 2024"
+---
+
 ## ChIP-seq
 Este repositorio busca recoger un flujo de trabajo desarrollado para realizar un análisis ChIP-seq, profundizando en las técnicas y programas utilizados, mostrando también distintas alternativas y los resultados que se pueden esperar.
 
