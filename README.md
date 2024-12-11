@@ -53,7 +53,7 @@ $ bowtie2 -p 2
           -S ~/reads_mapped.sam
 ```
 1. -p: launch NTHREADS parallel search threads
-2. -q: reads (specified with <m1>, <m2>, <s>) are FASTQ files
+2. -q: reads (specified with m1, m2, s) are FASTQ files
 3. -x: the basename of the index for the reference genome
 4. -U: Comma-separated list of files containing unpaired reads to be aligned
 5. -S: file to write SAM alignments to
