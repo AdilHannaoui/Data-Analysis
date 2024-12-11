@@ -14,11 +14,15 @@ Chromatin immunoprecipitation (ChIP) experiments are performed to identify DNA b
 ![ChIP Workflow](./img/ChIP_technique.png)<br><br>
 
 
-The first essential step in any biological data analysis is to perform a quality control check on the initial files. A widely used tool for this purpose is FastQC, although there are other alternatives, such as MultiQC or PRINSEQ.<br><br>
-
+The first essential step in any biological data analysis is to perform a quality control check on the initial files. A widely used tool for this purpose is FastQC, although there are other alternatives, such as MultiQC or PRINSEQ.
 ```bash
 $ fastqc reads.fastq
 ```
+
+
+After running the quality control command, an HTML file containing the analysis results will be generated. The interpretation of these results is largely subjective. While the indicators provided can suggest whether the read quality is adequate, it is up to us to determine whether the file quality meets our requirements or if corrections are needed. If we choose the latter, the next step involves "trimming" the reads using tools such as Trimmomatic. This step is critical, as it removes low-quality reads, thereby improving the overall quality of the files and ensuring more reliable future results.
+
+
 
 ```bash
 $ bowtie2 -p 2
