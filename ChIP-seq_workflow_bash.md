@@ -89,10 +89,10 @@ $ sambamba view -h \
                 reads_mapped_sorted.bam  > reads_mapped_sorted_aligned.bam 
 ```
 
-Finalmente, cuando tengamos nuestros archivos BAM correctamente procesados, podemos proceder con el peak calling. La herramienta por excelencia para análisis ChIP-seq es MACS2. Este peak caller cuenta además con numerosas opciones para realizar el análisis. Realmente, no existe una manera estándar para todos los análisis de datos, ya que va a depender del tipo de datos con los que contamos, su naturaleza, la calidad, el genoma de referencia, etc. Es por esto que lo más óptimo es ir ajustando estos parámetros y estudiar y comparar los distintos resultados obtenidos.<br><br>
-El fundamento de los peak caller radica en encontrar regiones enriquecidas en las muestras IP con respecto a los input. De esta forma, se comparan dichas regiones entre las distintas replicas con las que se esté trabajando, descartando aquellas que no coincidan en todas. De esta manera, las regiones enriquecidas obtenidas, comunes en todas las muestras, nos revelan potenciales sitios de unión de una determinada molécula al ADN.
+Finally, once our BAM files have been properly processed, we can proceed with peak calling. The gold standard tool for ChIP-seq analysis is MACS2. This peak caller offers numerous options for conducting the analysis. There is no universal approach for all data analyses, as it depends on the type of data, its nature, quality, reference genome, and other factors. For this reason, the most effective strategy is to adjust these parameters, study the results, and compare the different outputs obtained.<br><br>
+The principle behind peak callers lies in identifying regions enriched in IP samples compared to inputs. These regions are then compared across the different replicates being analyzed, discarding those that are not consistent across all of them. In this way, the enriched regions that are common to all samples reveal potential binding sites for a specific molecule to DNA.
 
-![ChIP Workflow](./img/Quality_control.png)
+![ChIP Workflow](./img/peakcalling.png)
 
 ```bash
 $ macs2 callpeak -t bowtie2/H1hesc_Nanog_Rep1_aln.bam \
@@ -103,4 +103,42 @@ $ macs2 callpeak -t bowtie2/H1hesc_Nanog_Rep1_aln.bam \
                  -n sample_name 
 ```
 
+**Input file options**
+
+* `-t`: The IP data file (this is the only REQUIRED parameter for MACS)
+* `-c`: The control or mock data file
+* `-f`: format of input file; Default is "AUTO" which will allow MACS to decide the format automatically.
+* `-g`: mappable genome size which is defined as the genome size which can be sequenced; some precompiled values provided.
+
+**Output arguments**
+
+* `--outdir`: MACS2 will save all output files into speficied folder for this option
+* `-n`: The prefix string for output files
+* `-B/--bdg`: store the fragment pileup, control lambda, -log10pvalue and -log10qvalue scores in bedGraph files
+
+**Shifting model arguments**
+
+* `-s`: size of sequencing tags. Default, MACS will use the first 10 sequences from your input treatment file to determine it
+* `--bw`: The bandwidth which is used to scan the genome ONLY for model building. Can be set to the expected sonication fragment size.
+* `--mfold`: upper and lower limit for model building
+
+**Peak calling arguments**
+
+* `-q`: q-value (minimum FDR) cutoff
+* `-p`: p-value cutoff (instead of q-value cutoff)
+* `--nolambda`: do not consider the local bias/lambda at peak candidate regions
+* `--broad`: broad peak calling
+
+The execution of MACS2 will generate different types of files, some of which depend on the parameters considered during the MACS2 run.
+
+* `_peaks.narrowPeak`: BED6+4 format file which contains the peak locations together with peak summit, pvalue and qvalue
+* `_peaks.xls`: a tabular file which contains information about called peaks. Additional information includes pileup and fold enrichment
+* `_summits.bed`: peak summits locations for every peak. To find the motifs at the binding sites, this file is recommended
+* `_model.R`: an R script which you can use to produce a PDF image about the model based on your data and cross-correlation plot
+* `_control_lambda.bdg`: bedGraph format for input sample
+* `_treat_pileup.bdg`: bedGraph format for treatment sample
+
+All these files will be generated for each peak calling result, so it is essential to consider the directory where they will be saved to ensure everything is well-organized.<br><br>
+
+The next step in data analysis will require switching to the R programming language, which will be explained in detail in the "ChIP-seq_workflow_R" file.
 </div>
