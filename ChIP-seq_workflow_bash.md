@@ -33,13 +33,13 @@ $ java -jar "directory/to/trimmomatic_jarfile"
        SLIDINGWINDOW:
        MINLEN:
 ```
-1. SE: Refers to a Single End analysis, where only one direction of the strand is analyzed. If both strands were used (Paired End), the PE option would be selected.
-2. -threads: Specifies the number of threads used to execute the command. The higher the number of threads, the faster the execution. However, this depends on the performance of the computer being used.
-3. -phred33: specifies the base quality encoding. In this case, it converts quality scores to Phred-33
-4. LEADING: Cut bases off the start of a read, if below a threshold quality 
-5. TRAILING: Cut bases off the end of a read, if below a threshold quality
-6. SLIDINGWINDOW: Performs a sliding window trimming approach. It starts scanning at the 5‟ end and clips the read once the average quality within the window falls below a threshold.
-7. MINLEN: Drop the read if it is below a specified length 
+* SE: Refers to a Single End analysis, where only one direction of the strand is analyzed. If both strands were used (Paired End), the PE option would be selected.
+* -threads: Specifies the number of threads used to execute the command. The higher the number of threads, the faster the execution. However, this depends on the performance of the computer being used.
+* -phred33: specifies the base quality encoding. In this case, it converts quality scores to Phred-33
+* LEADING: Cut bases off the start of a read, if below a threshold quality 
+* TRAILING: Cut bases off the end of a read, if below a threshold quality
+* SLIDINGWINDOW: Performs a sliding window trimming approach. It starts scanning at the 5‟ end and clips the read once the average quality within the window falls below a threshold.
+* MINLEN: Drop the read if it is below a specified length 
 
 Once we are confident that our sequencing files have been processed as desired, we can proceed with aligning them to the reference genome. For this, the FASTA file is not used directly; instead, a prior indexing step is required. The genome indexing will vary depending on the alignment tool used. In this case, Bowtie2 is employed, although other options, such as HISAT2, are also available.
 ```bash
@@ -52,11 +52,11 @@ $ bowtie2 -p 2
           -U ~/reads.fastq 
           -S ~/reads_mapped.sam
 ```
-1. -p: launch NTHREADS parallel search threads
-2. -q: reads (specified with m1, m2, s) are FASTQ files
-3. -x: the basename of the index for the reference genome
-4. -U: Comma-separated list of files containing unpaired reads to be aligned
-5. -S: file to write SAM alignments to
+* -p: launch NTHREADS parallel search threads
+* -q: reads (specified with m1, m2, s) are FASTQ files
+* -x: the basename of the index for the reference genome
+* -U: Comma-separated list of files containing unpaired reads to be aligned
+* -S: file to write SAM alignments to
 
 
 The resulting file will be in SAM (Sequence Alignment/Map) format. While this type of file is easily readable by humans, it poses a significant challenge for the machine when processing it. For this reason, BAM formats exist, which are the binary version of SAM files. This allows for improved performance and efficiency when working with these files. Therefore, the first step after obtaining the alignment files is to convert them to BAM format. To do this, we will use the tool samtools, which is widely used in this type of analysis.
@@ -67,11 +67,11 @@ $ samtools view -h \
                 -b \
                 -o /reads_mapped.bam /reads_mapped.sam
 ```
-1. view: views and converts SAM/BAM/CRAM files
-2. -h: include the header in the output
-3. -S: input is in SAM format
-4. -b: output in the BAM format
-5. -o: output file
+* view: views and converts SAM/BAM/CRAM files
+* -h: include the header in the output
+* -S: input is in SAM format
+* -b: output in the BAM format
+* -o: output file
 
 When obtaining BAM files, it is crucial to ensure they are both sorted and indexed to perform subsequent peak calling. Sambamba is a tool that allows these two steps to be executed simultaneously, optimizing the workflow. Alternatively, samtools can be used; however, this would require running two separate commands to sort and index the BAM files, respectively.<br><br>
 
