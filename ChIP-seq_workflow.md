@@ -73,11 +73,14 @@ $ samtools view -h \
 4. -b: output in the BAM format
 5. -o: output file
 
+When obtaining BAM files, it is crucial to ensure they are both sorted and indexed to perform subsequent peak calling. Sambamba is a tool that allows these two steps to be executed simultaneously, optimizing the workflow. Alternatively, samtools can be used; however, this would require running two separate commands to sort and index the BAM files, respectively.<br><br>
+
+Another important consideration is that when executing Bowtie2 for alignment, achieving 100% mapping is rare. Additionally, within the mapped regions, duplicates may be present. For accurate analysis, it is essential to remove both duplicates and unmapped regions, as they can skew the final results. Sambamba offers a specific option to address this issue effectively. In this repository, the two commands are shown separately, but they can be integrated using pipes for greater efficiency.
+
 ```bash
 $ sambamba sort -t 2 \ 
                 -o /reads_mapped.bam /reads_mapped_sorted.bam 
 ```
-
 ```bash
 $ sambamba view -h \
                 -t 2 \
@@ -85,6 +88,11 @@ $ sambamba view -h \
                 -F "[XS] == null and not unmapped  and not duplicate" \ 
                 reads_mapped_sorted.bam  > reads_mapped_sorted_aligned.bam 
 ```
+
+Finalmente, cuando tengamos nuestros archivos BAM correctamente procesados, podemos proceder con el peak calling. La herramienta por excelencia para análisis ChIP-seq es MACS2. Este peak caller cuenta además con numerosas opciones para realizar el análisis. Realmente, no existe una manera estándar para todos los análisis de datos, ya que va a depender del tipo de datos con los que contamos, su naturaleza, la calidad, el genoma de referencia, etc. Es por esto que lo más óptimo es ir ajustando estos parámetros y estudiar y comparar los distintos resultados obtenidos.<br><br>
+El fundamento de los peak caller radica en encontrar regiones enriquecidas en las muestras IP con respecto a los input. De esta forma, se comparan dichas regiones entre las distintas replicas con las que se esté trabajando, descartando aquellas que no coincidan en todas. De esta manera, las regiones enriquecidas obtenidas, comunes en todas las muestras, nos revelan potenciales sitios de unión de una determinada molécula al ADN.
+
+![ChIP Workflow](./img/Quality_control.png)
 
 ```bash
 $ macs2 callpeak -t bowtie2/H1hesc_Nanog_Rep1_aln.bam \
