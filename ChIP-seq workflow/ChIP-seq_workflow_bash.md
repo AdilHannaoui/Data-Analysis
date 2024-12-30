@@ -11,14 +11,14 @@ This repository compiles a workflow designed for ChIP-seq data analysis. It incl
 Chromatin immunoprecipitation (ChIP) experiments are performed to identify DNA bound to specific (chromatin) proteins of interest. The first step involves isolating the chromatin and immunoprecipitating (IP) fragements with an antibody against the protein of interest. In ChIP-seq, the immunoprecipitated DNA fragments are then sequenced, followed by identification of enriched regions of DNA or peaks. These peak calls can then be used to make biological inferences by determining the associated genomic features and/or over-represented sequence motifs.<br><br>
 
 
-![ChIP Workflow](./img/ChIP_technique.png)<br><br>
+![ChIP Workflow](../img/ChIP_technique.png)<br><br>
 
 
 The first essential step in any biological data analysis is to perform a quality control check on the initial files. A widely used tool for this purpose is FastQC, although there are other alternatives, such as MultiQC or PRINSEQ.
 ```bash
 $ fastqc reads.fastq
 ```
-![ChIP Workflow](./img/Quality_control.png)<br><br>
+![ChIP Workflow](../img/Quality_control.png)<br><br>
 
 After running the quality control command, an HTML file containing the analysis results will be generated. The interpretation of these results is largely subjective. While the indicators provided can suggest whether the read quality is adequate, it is up to us to determine whether the file quality meets our requirements or if corrections are needed. If we choose the latter, the next step involves "trimming" the reads using tools such as Trimmomatic. This step is critical, as it removes low-quality reads, thereby improving the overall quality of the files and ensuring more reliable future results.
 
@@ -92,7 +92,7 @@ $ sambamba view -h \
 Finally, once our BAM files have been properly processed, we can proceed with peak calling. The gold standard tool for ChIP-seq analysis is MACS2. This peak caller offers numerous options for conducting the analysis. There is no universal approach for all data analyses, as it depends on the type of data, its nature, quality, reference genome, and other factors. For this reason, the most effective strategy is to adjust these parameters, study the results, and compare the different outputs obtained.<br><br>
 The principle behind peak callers lies in identifying regions enriched in IP samples compared to inputs. These regions are then compared across the different replicates being analyzed, discarding those that are not consistent across all of them. In this way, the enriched regions that are common to all samples reveal potential binding sites for a specific molecule to DNA.
 
-![ChIP Workflow](./img/peakcalling.png)
+![ChIP Workflow](../img/peakcalling.png)
 
 ```bash
 $ macs2 callpeak -t bowtie2/H1hesc_Nanog_Rep1_aln.bam \
